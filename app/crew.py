@@ -1,72 +1,76 @@
 from crewai import Agent, Task, Crew
 from crewai_tools import SerperDevTool
-from crewai.tools import BaseTool
-from config import SERPER_API, GEMINI_API
-import os 
+from config import OPENAI_API 
+import os
 
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
-llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.7)
+# Carrega chave da OpenAI
+os.environ["OPENAI_API_KEY"] = OPENAI_API
 
-if "OPENAI_API_KEY" in os.environ:
-    del os.environ["OPENAI_API_KEY"]
-os.environ["GEMINI_API_KEY"] = GEMINI_API
+# Define o modelo OpenAI 
+llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
 
+# Ferramenta de pesquisa Serper (Google Search API)
+pesquisa = SerperDevTool(api_key=os.getenv("SERPER_API"))
 
-from google.generativeai import GenerativeModel, configure
-
-class GeminiTool(BaseTool):
-    def __init__(self, api_key: str, model_name: str = "gemini-2.0-flash"):
-        super().__init__(
-            name="GeminiTool",
-            description="Usa a API do Gemini para responder perguntas e gerar conteúdo."
-        )
-        configure(api_key=api_key)
-        self._model = GenerativeModel(model_name)
-
-    def _run(self, input: str) -> str:
-        response = self._model.generate_content(input)
-        return response.text.strip()
-
-
-
-pesquisa = SerperDevTool(api_key=SERPER_API)
-gemini = GeminiTool(api_key=GEMINI_API)
-
-#Criação dos agentes do sistema
+# Agente coordenador
 krakinho = Agent(
-    role="Coordenador da equipe de montagem de computadores do site octocore",
-    goal="Distribuir as tarefas entre os membros da equipe para garantir que o melhor computador possível seja montado pro cliente e fazer toda a interação direta com o cliente",
-    backstory="Você trabalha a muitos anos na empresa octocore ajudando os clientes que não tem muito conhecimento a montarem seus computadores de acordo com oque eles pedem, tambem tem um conhecimento suficiente para tirar dúvidas básicas sobre esse processo",
-    tools=[gemini],
-    verbose= True,
+    role="Coordenador da equipe de montagem de computadores do site OctoCore",
+    goal="Ajudar clientes com pouco conhecimento a montar o melhor PC possível com base no que desejam",
+    backstory="Você trabalha há anos na OctoCore ajudando clientes a entender as melhores opções para montar seus PCs.",
+    tools=[pesquisa],
+    llm=llm,
+    verbose=True,
     allow_delegation=True,
-    llm=llm
 )
 
-montador= Agent(
-    role="Especialista em montagem de computadores dos mais variados tipos do site octocore",
-    goal="Pesquisa na internet por peças que se adequem aos requisitos passados pelo cliente ao krakinho, verificando compatibilidades e jogos que o cliente especificou que gostaria de conseguir jogar",
-    backstory="No passado ja teve computadores ruins e aprendeu a montar pcs por conta própria, sendo especialista em pesquisas detalhadas para saber exatamente oque um computador precisa para atingir uma certa performance ",
-    tools=[pesquisa, gemini],
-    verbose= True,
+# Agente montador
+montador = Agent(
+    role="Especialista em montagem de computadores gamer",
+    goal="Pesquisar peças compatíveis e ideais para atender às exigências do cliente, dentro do orçamento",
+    backstory="Você já teve PCs ruins e aprendeu por conta própria a montar setups otimizados. Hoje, pesquisa a fundo para entregar as melhores combinações de peças.",
+    tools=[pesquisa],
+    llm=llm,
+    verbose=True,
+    allow_delegation=False,
+)
+
+# Agente verificador
+verificador = Agent(
+    role="Verificador de orçamento",
+    goal="Revisar se o orçamento foi respeitado e sugerir ajustes, se necessário",
+    backstory="Especialista em finanças para configurações de PC. Sua função é validar orçamentos dos técnicos.",
+    tools=[],
+    llm=llm,
+    verbose=True
+)
+
+# Agente suporte 
+suporte = Agent(
+    role="Atendente de suporte ao cliente do OctoCore",
+    goal="Responder dúvidas frequentes e ajudar o cliente a usar o site de forma eficiente",
+    backstory="Você é um especialista no uso da plataforma OctoCore, ajudando diariamente usuários com problemas comuns, como como montar um PC, fazer login, rastrear pedidos, entender prazos de entrega e devoluções.",
+    tools=[],
+    verbose=True,
     allow_delegation=False,
     llm=llm
 )
 
-
+# Tarefa de montagem
 montarPC = Task(
-    description="Encontrar uma configuração ideal de PC para jogos com orçamento de até R$5000",
+    description="Montar um PC para jogos com orçamento de até R$5000. Deve rodar bem jogos populares como Fortnite, GTA V e Valorant.",
     expected_output="Lista de componentes com nome, modelo e preço aproximado",
     agent=montador,
 )
-
-
+# Crew
 crew = Crew(
-    agents=[krakinho, montador],
+    agents=[krakinho, montador, verificador],
     tasks=[montarPC],
     verbose=True
 )
 
-result = crew.kickoff()
-print(result)
+if __name__ == "__main__":
+    result = crew.kickoff()
+    print("\n💻 Resultado da montagem:\n")
+    print(result)
