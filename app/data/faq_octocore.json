@@ -1,0 +1,54 @@
+[
+  {
+    "pergunta": "Como faço para comprar no site?",
+    "resposta": "Você pode explorar a home e navegar pelas seções como 'PCs Gamer' ou 'Monte seu PC'. Depois, escolha um modelo pronto ou personalize o seu. Clique em 'Comprar', revise seu carrinho e finalize com login, endereço e pagamento."
+  },
+  {
+    "pergunta": "Como funciona o recurso 'Monte seu PC'?",
+    "resposta": "O recurso 'Monte seu PC' permite montar seu setup gamer de forma personalizada. Você será guiado por uma sequência de etapas, onde deve selecionar uma peça por categoria. O sistema impede combinações incompatíveis e atualiza o preço em tempo real. Após completar todas as etapas, você poderá finalizar a compra."
+  },
+  {
+    "pergunta": "Como usar a ferramenta 'Monte seu PC' passo a passo?",
+    "resposta": "1. Acesse a opção 'Monte seu PC' no menu do site.\n2. Você verá uma lista de categorias: Processador, Placa Mãe, Memória, Placa de Vídeo, SSD, HD, Cooler, Fonte, Gabinete, Fans, Sistema Operacional e Software.\n3. Em cada categoria, escolha o produto desejado. Os produtos exibidos são compatíveis com os itens escolhidos anteriormente.\n4. Clique em 'Adicionar' para confirmar a peça e passar para a próxima categoria.\n5. O sistema mostrará o preço total atualizado conforme você adiciona os itens.\n6. Quando todas as categorias forem preenchidas, aparecerá o botão 'Finalizar'.\n7. Clique em 'Finalizar' para ir ao carrinho e concluir a compra.\nObservação: se você estiver como visitante, será solicitado a fazer login ou criar uma conta antes de finalizar a compra."
+  },
+  {
+    "pergunta": "Quais categorias de peças posso escolher?",
+    "resposta": "Durante a montagem do PC, você escolhe uma peça de cada categoria: Processador, Placa Mãe, Memória, Placa de Vídeo, SSD, HD, Cooler, Fonte, Gabinete, Fans, Sistema Operacional e Software."
+  },
+  {
+    "pergunta": "Posso montar meu PC como visitante?",
+    "resposta": "Sim, mas para finalizar a compra você precisará criar uma conta ou fazer login. O sistema salva seu carrinho no navegador até esse momento."
+  },
+  {
+    "pergunta": "É necessário login para finalizar a compra?",
+    "resposta": "Sim. Após montar o seu PC, se você estiver como visitante, será necessário criar uma conta ou fazer login para prosseguir com o pagamento."
+  },
+  {
+    "pergunta": "Posso alterar um PC já comprado?",
+    "resposta": "Sim, desde que a montagem ainda não tenha iniciado. Entre em contato com o suporte em até 24 horas após a compra."
+  },
+  {
+    "pergunta": "Quais são as formas de pagamento?",
+    "resposta": "Aceitamos cartão de crédito, boleto, Pix e parcelamento em até 12x sem juros."
+  },
+  {
+    "pergunta": "Como rastrear meu pedido?",
+    "resposta": "Após a confirmação do pagamento, vá em 'Minha Conta' > 'Meus Pedidos' e clique em 'Rastrear'."
+  },
+  {
+    "pergunta": "E se um componente vier com defeito?",
+    "resposta": "Todos os itens possuem 12 meses de garantia. Contate nosso suporte com o número do pedido e uma foto ou vídeo do defeito."
+  },
+  {
+    "pergunta": "Como recuperar minha senha?",
+    "resposta": "Você pode recuperar sua senha clicando em 'Esqueci minha senha' na tela de login."
+  },
+  {
+    "pergunta": "Quais são as políticas de devolução?",
+    "resposta": "Você pode solicitar devolução em até 7 dias corridos após o recebimento. Em caso de defeito, o frete reverso é por nossa conta."
+  },
+  {
+    "pergunta": "O que é o OctoBot?",
+    "resposta": "O OctoBot é o assistente virtual do site, disponível no canto inferior direito. Ele responde dúvidas sobre modelos de PCs, montagem, pagamentos, status de pedido e suporte técnico."
+  }
+]
