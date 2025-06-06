@@ -1,7 +1,7 @@
 from crewai import Agent
 from langchain_openai import ChatOpenAI
-from config import OPENAI_API
-from tools.consulta_estoque import EstoqueTool  
+from app.config import OPENAI_API
+from app.tools.consulta_estoque import EstoqueTool  
 import os
 
 os.environ["OPENAI_API_KEY"] = OPENAI_API

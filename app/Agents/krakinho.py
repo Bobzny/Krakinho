@@ -1,9 +1,6 @@
 from crewai import Agent, Task, Crew
 from langchain_openai import ChatOpenAI
-from config import OPENAI_API
-from .montador import montador
-from .suporte import suporte
-from .revisor import revisor
+from app.config import OPENAI_API
 import os
 
 # Define chave
@@ -11,36 +8,16 @@ os.environ["OPENAI_API_KEY"] = OPENAI_API
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.3)
 
 # Agente chefe
+# Agente-chefe Krakinho
 krakinho = Agent(
-    role="Agente-chefe de atendimento da krakinho",
-    goal="Interpretar a dúvida do cliente e encaminhar para o agente mais apropriado ou responder diretamente",
-    backstory="""Você é o krakinho, o cérebro por trás do atendimento ao cliente na krakinho.
-Com anos de experiência, você entende quando encaminhar tarefas para especialistas técnicos ou responder diretamente,
-sempre garantindo que o cliente tenha uma resposta clara e confiável.""",
+    role="Krakinho, agente-chefe de atendimento da OctoCore",
+    goal="Entender a pergunta do cliente e acionar o agente mais apropriado ou responder diretamente",
+    backstory="""
+        Você é o Krakinho, o cérebro do suporte OctoCore. 
+        Sua missão é entender qualquer pergunta do cliente, decidir se consegue responder ou se precisa da ajuda dos agentes técnicos (montador, suporte ou revisor).
+    """,
     llm=llm,
     verbose=True,
     allow_delegation=True,
-    tools=[]
+    tools=[]  # Krakinho apenas delega
 )
-
-# Entrada do cliente
-pergunta = input("Digite a pergunta do cliente: ")
-
-# Task principal do Krakinho
-tarefa_geral = Task(
-    description=f"Interpretar e responder ou delegar a dúvida do cliente: '{pergunta}'",
-    expected_output="Resposta clara e precisa, seja técnica (montagem) ou informativa (uso do site)",
-    agent=krakinho
-)
-
-# Crew
-krakinho_crew = Crew(
-    agents=[krakinho, montador, suporte, revisor],
-    tasks=[tarefa_geral],
-    verbose=True
-)
-
-if __name__ == "__main__":
-    resultado = krakinho_crew.kickoff()
-    print("\n🤖 Resposta final ao cliente:\n")
-    print(resultado)
